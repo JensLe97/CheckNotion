@@ -10,6 +10,15 @@ class Quiz extends StatefulWidget {
 class _QuizState extends State<Quiz> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      appBar: AppBar(
+        title: IndexedStack(children: [
+          Center(
+            child: Text('Quiz'),
+          ),
+        ]),
+      ),
+      // body:
+    );
   }
 }

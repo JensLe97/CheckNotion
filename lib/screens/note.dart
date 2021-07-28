@@ -17,6 +17,20 @@ class _NoteState extends State<Note> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: IndexedStack(children: [
+          Center(
+            child: Text('Notizen'),
+          ),
+        ]),
+        actions: <Widget>[
+          IconButton(
+              onPressed: () {
+                //
+              },
+              icon: Icon(Icons.add))
+        ],
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

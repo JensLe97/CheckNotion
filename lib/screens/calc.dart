@@ -10,6 +10,15 @@ class Calc extends StatefulWidget {
 class _CalcState extends State<Calc> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      appBar: AppBar(
+        title: IndexedStack(children: [
+          Center(
+            child: Text('Taschenrechner'),
+          ),
+        ]),
+      ),
+      // body:
+    );
   }
 }

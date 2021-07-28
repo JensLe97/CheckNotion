@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:little_tricks/calc.dart';
-import 'package:little_tricks/note.dart';
-import 'package:little_tricks/quiz.dart';
-import 'package:little_tricks/timer.dart';
-import 'package:little_tricks/todo.dart';
+import 'package:little_tricks/screens/calc.dart';
+import 'package:little_tricks/screens/note.dart';
+import 'package:little_tricks/screens/quiz.dart';
+import 'package:little_tricks/screens/timer.dart';
+import 'package:little_tricks/screens/todo.dart';
 
 void main() {
   runApp(LittleTricks());
@@ -14,9 +14,10 @@ class LittleTricks extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+          primarySwatch: Colors.blue,
+          appBarTheme: AppBarTheme(centerTitle: true)),
       home: NavBar(title: 'Little Tricks'),
     );
   }
@@ -41,14 +42,6 @@ class _NavBarState extends State<NavBar> {
     Calc(),
   ];
 
-  List<Widget> _tabHeaders = <Widget>[
-    Text('Notizen'),
-    Text('Todo Liste'),
-    Text('Quiz'),
-    Text('Event-Timer'),
-    Text('Taschenrechner'),
-  ];
-
   void _onTap(int index) {
     setState(() {
       _currentIndex = index;
@@ -58,13 +51,6 @@ class _NavBarState extends State<NavBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: IndexedStack(children: [
-          Center(
-            child: _tabHeaders.elementAt(_currentIndex),
-          ),
-        ]),
-      ),
       body: IndexedStack(children: [
         Center(
           child: _tabs.elementAt(_currentIndex),
@@ -78,25 +64,17 @@ class _NavBarState extends State<NavBar> {
         onTap: _onTap,
         items: [
           BottomNavigationBarItem(
-              label: 'Notizen',
-              icon: Icon(Icons.sticky_note_2_outlined),
+            label: 'Notizen',
+            icon: Icon(Icons.sticky_note_2_outlined),
           ),
           BottomNavigationBarItem(
-              label: 'Todo',
-              icon: Icon(Icons.check_box_outlined)
-          ),
+              label: 'Todo', icon: Icon(Icons.check_box_outlined)),
           BottomNavigationBarItem(
-              label: 'Quiz',
-              icon: Icon(Icons.quiz_outlined)
-          ),
+              label: 'Quiz', icon: Icon(Icons.quiz_outlined)),
           BottomNavigationBarItem(
-              label: 'Timer',
-              icon: Icon(Icons.event_outlined)
-          ),
+              label: 'Timer', icon: Icon(Icons.event_outlined)),
           BottomNavigationBarItem(
-              label: 'Rechner',
-              icon: Icon(Icons.calculate_outlined)
-          ),
+              label: 'Rechner', icon: Icon(Icons.calculate_outlined)),
         ],
       ),
     );
