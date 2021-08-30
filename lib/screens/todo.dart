@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:little_tricks/helpers/db_helper.dart';
+import 'package:little_tricks/models/item_model.dart';
 import 'package:little_tricks/models/task_model.dart';
 
 class Todo extends StatefulWidget {
@@ -10,7 +11,7 @@ class Todo extends StatefulWidget {
 }
 
 class _TodoState extends State<Todo> {
-  late Future<List<Task>> _taskList;
+  late Future<List<Item>> _itemList;
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -21,10 +22,12 @@ class _TodoState extends State<Todo> {
 
   _updateTaskList() {
     setState(() {
-      _taskList = DbHelper.instance.getTaskList();
+      // Items are of type Task
+      _itemList = DbHelper.instance.getItemList('task_table');
     });
   }
 
+  // Alert Dialog Popup for entering a Todo element
   Future<void> _showAddTodo(BuildContext context, Task? task) async {
     final TextEditingController _textEditingController =
         TextEditingController(text: task != null ? task.title : null);
@@ -43,8 +46,10 @@ class _TodoState extends State<Todo> {
                     validator: (value) {
                       return value!.isNotEmpty
                           ? null
+                          // Text for invalid data
                           : "Beschreibung erforderlich!";
                     },
+                    // Text in input field
                     decoration: InputDecoration(hintText: "Neue Aufgabe..."),
                   )
                 ],
@@ -54,20 +59,23 @@ class _TodoState extends State<Todo> {
               TextButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
+                    // New task must be created and inserted
                     if (task == null) {
                       Task newTask =
                           Task(title: _textEditingController.text, done: 0);
-                      DbHelper.instance.insertTask(newTask);
+                      DbHelper.instance.insertItem(newTask);
                       _updateTaskList();
                       Navigator.of(context).pop();
                     } else {
+                      // Update the given task
                       task.title = _textEditingController.text;
-                      DbHelper.instance.updateTask(task);
+                      DbHelper.instance.updateItem(task);
                       _updateTaskList();
                       Navigator.of(context).pop();
                     }
                   }
                 },
+                // Button label
                 child: task == null ? Text("Hinzufügen") : Text("Ändern"),
               ),
             ],
@@ -75,6 +83,7 @@ class _TodoState extends State<Todo> {
         });
   }
 
+  // One single task item for the list
   Widget _task(Task task) {
     return Container(
       child: Column(
@@ -82,9 +91,10 @@ class _TodoState extends State<Todo> {
           Dismissible(
             key: UniqueKey(),
             onDismissed: (direction) {
-              DbHelper.instance.deleteTask(task.id!);
+              DbHelper.instance.deleteItem(task, task.id!);
             },
             direction: DismissDirection.endToStart,
+            // Container behind the dismissible -> delete banner
             background: Container(
               padding: EdgeInsets.only(right: 20.0),
               alignment: Alignment.centerRight,
@@ -95,11 +105,15 @@ class _TodoState extends State<Todo> {
                 style: TextStyle(color: Colors.white),
               ),
             ),
+            // Actual list item
             child: ListTile(
               contentPadding:
                   EdgeInsets.symmetric(horizontal: 40, vertical: 10),
               title: Text(
                 task.title,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                softWrap: false,
                 style: TextStyle(
                   fontSize: 18,
                   decoration: task.done == 0
@@ -111,19 +125,22 @@ class _TodoState extends State<Todo> {
                 iconSize: 28,
                 onPressed: () {
                   task.done = task.done == 1 ? 0 : 1;
-                  DbHelper.instance.updateTask(task);
+                  DbHelper.instance.updateItem(task);
                   _updateTaskList();
                 },
                 icon: task.done == 1
-                    ? Icon(Icons.check_circle_outline)
+                    ? Icon(Icons.check_circle)
                     : Icon(Icons.circle_outlined),
                 color: task.done == 1 ? Colors.green : Colors.grey,
               ),
-              onTap: () => {_showAddTodo(context, task)},
+              onTap: () => {
+                // Update the current task that was clicked
+                _showAddTodo(context, task),
+              },
             ),
           ),
           Divider(
-            height: 0,
+            height: 0, // Default = 16
             indent: 40,
             color: Colors.black,
           )
@@ -134,6 +151,7 @@ class _TodoState extends State<Todo> {
 
   @override
   Widget build(BuildContext context) {
+    // Whole content containing appbar and ListView
     return Scaffold(
       appBar: AppBar(
         title: Center(
@@ -142,24 +160,28 @@ class _TodoState extends State<Todo> {
         actions: <Widget>[
           IconButton(
               onPressed: () {
+                // Add new task to the list
                 _showAddTodo(context, null);
               },
               icon: Icon(Icons.add))
         ],
       ),
       body: Container(
+        // The Listview is based on the Future<List<Task>>
         child: FutureBuilder(
-          future: _taskList,
-          builder: (context, AsyncSnapshot<List<Task>> snapshot) {
+          future: _itemList,
+          builder: (context, AsyncSnapshot<List<Item>> snapshot) {
             if (!snapshot.hasData) {
               return Center(
                 child: CircularProgressIndicator(),
               );
             }
             return ListView.builder(
+              // Build the list with all data from the database and create
+              // a _task for each item
               itemCount: snapshot.data!.length,
               itemBuilder: (BuildContext context, int index) {
-                return _task(snapshot.data![index]);
+                return _task(snapshot.data!.cast<Task>()[index]);
               },
             );
           },

@@ -1,6 +1,9 @@
 import 'dart:io';
 
+import 'package:little_tricks/models/item_model.dart';
+import 'package:little_tricks/models/note_model.dart';
 import 'package:little_tricks/models/task_model.dart';
+import 'package:little_tricks/models/time_model.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -10,10 +13,20 @@ class DbHelper {
 
   DbHelper._instance();
 
-  String taskTable = 'task_table';
+  List<String> tableNames = <String>[
+    'note_table',
+    'task_table',
+    'time_table',
+  ];
+
   String colId = 'id';
   String colTitle = 'title';
-  String colDone = 'done';
+
+  List<String> colNames = <String>[
+    'content',
+    'done',
+    'time',
+  ];
 
   Future<Database> get db async {
     if (_db == null) {
@@ -24,57 +37,85 @@ class DbHelper {
 
   Future<Database> _initDb() async {
     Directory dir = await getApplicationDocumentsDirectory();
-    String path = dir.path + 'todo_list.db';
-    final todoListDb =
+    String path = dir.path + 'tricks_list.db';
+    final trickListDb =
         await openDatabase(path, version: 2, onCreate: _createDb);
-    return todoListDb;
+    return trickListDb;
   }
 
   void _createDb(Database db, int version) async {
-    await db.execute(
-      'CREATE TABLE $taskTable($colId INTEGER PRIMARY KEY AUTOINCREMENT, $colTitle TEXT, $colDone INTEGER)',
-    );
+    // Create one DB with 3 tables
+    for (var i = 0; i < tableNames.length; i++) {
+      String tableName = tableNames.elementAt(i);
+      String colName = colNames.elementAt(i);
+      // Done needs to be an int
+      String colType = colName.contains('done') ? 'INTEGER' : 'TEXT';
+      await db.execute(
+        'CREATE TABLE $tableName($colId INTEGER PRIMARY KEY AUTOINCREMENT, $colTitle TEXT, $colName $colType)',
+      );
+    }
   }
 
-  Future<List<Map<String, dynamic>>> getTaskMapList() async {
+  // Get the List<Map<String, dynamic>> directly from the DB
+  Future<List<Map<String, dynamic>>> getItemMapList(String name) async {
     Database db = await this.db;
-    final List<Map<String, dynamic>> result = await db.query(taskTable);
+    final List<Map<String, dynamic>> result = await db.query(name);
     return result;
   }
 
-  Future<List<Task>> getTaskList() async {
-    final List<Map<String, dynamic>> taskMapList = await getTaskMapList();
-    final List<Task> taskList = [];
-    taskMapList.forEach((taskMap) {
-      taskList.add(Task.fromMap(taskMap));
+  // Get the List<Item> using getItemMapList and converts a
+  // Map to a certain Item
+  Future<List<Item>> getItemList(String name) async {
+    final List<Map<String, dynamic>> itemMapList = await getItemMapList(name);
+    final List<Item> itemList = [];
+    itemMapList.forEach((itemMap) {
+      if (name.contains('note')) {
+        itemList.add(Note.fromMap(itemMap));
+      } else if (name.contains('task')) {
+        itemList.add(Task.fromMap(itemMap));
+      } else if (name.contains('time')) {
+        itemList.add(Time.fromMap(itemMap));
+      }
     });
-    return taskList;
+    return itemList;
   }
 
-  Future<int> insertTask(Task task) async {
+  Future<int> insertItem(Item item) async {
     Database db = await this.db;
-    final int result = await db.insert(taskTable, task.toMap());
+    final int result = await db.insert(getTableName(item), item.toMap());
     return result;
   }
 
-  Future<int> updateTask(Task task) async {
+  Future<int> updateItem(Item item) async {
     Database db = await this.db;
     final int result = await db.update(
-      taskTable,
-      task.toMap(),
+      getTableName(item),
+      item.toMap(),
       where: '$colId = ?',
-      whereArgs: [task.id],
+      whereArgs: [item.id],
     );
     return result;
   }
 
-  Future<int> deleteTask(int id) async {
+  Future<int> deleteItem(Item item, int id) async {
     Database db = await this.db;
     final int result = await db.delete(
-      taskTable,
+      getTableName(item),
       where: '$colId = ?',
       whereArgs: [id],
     );
     return result;
+  }
+
+  String getTableName(Item item) {
+    if (item is Note) {
+      return tableNames.elementAt(0);
+    } else if (item is Task) {
+      return tableNames.elementAt(1);
+    } else if (item is Time) {
+      return tableNames.elementAt(2);
+    } else {
+      throw Exception("Invalid item type");
+    }
   }
 }

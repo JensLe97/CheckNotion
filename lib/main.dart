@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:little_tricks/screens/calc.dart';
-import 'package:little_tricks/screens/note.dart';
+import 'package:little_tricks/screens/notes.dart';
 import 'package:little_tricks/screens/quiz.dart';
 import 'package:little_tricks/screens/timer.dart';
 import 'package:little_tricks/screens/todo.dart';
@@ -13,6 +14,15 @@ class LittleTricks extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+      ],
+      supportedLocales: [
+        const Locale('de'),
+        const Locale('en'),
+      ],
+      // Language of the App is German
+      locale: Locale('de'),
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -35,7 +45,7 @@ class NavBar extends StatefulWidget {
 class _NavBarState extends State<NavBar> {
   int _currentIndex = 0;
   List<Widget> _tabs = <Widget>[
-    Note(),
+    Notes(),
     Todo(),
     Quiz(),
     Timer(),
