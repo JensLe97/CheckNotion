@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:little_tricks/screens/calc.dart';
 import 'package:little_tricks/screens/notes.dart';
 import 'package:little_tricks/screens/quiz.dart';
@@ -13,22 +14,27 @@ void main() {
 class LittleTricks extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      localizationsDelegates: [
-        GlobalMaterialLocalizations.delegate,
-      ],
-      supportedLocales: [
-        const Locale('de'),
-        const Locale('en'),
-      ],
-      // Language of the App is German
-      locale: Locale('de'),
-      title: 'Flutter Demo',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
+    return ProviderScope(
+      child: MaterialApp(
+        localizationsDelegates: [
+          GlobalMaterialLocalizations.delegate,
+        ],
+        supportedLocales: [
+          const Locale('de'),
+          const Locale('en'),
+        ],
+        // Language of the App is German
+        locale: Locale('de'),
+        title: 'Flutter Demo',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
           primarySwatch: Colors.blue,
-          appBarTheme: AppBarTheme(centerTitle: true)),
-      home: NavBar(title: 'Little Tricks'),
+          appBarTheme: AppBarTheme(centerTitle: true),
+          bottomSheetTheme:
+              const BottomSheetThemeData(backgroundColor: Colors.transparent),
+        ),
+        home: NavBar(title: 'Little Tricks'),
+      ),
     );
   }
 }
