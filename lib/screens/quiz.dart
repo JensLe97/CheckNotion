@@ -155,7 +155,7 @@ class QuizQuestions extends StatelessWidget {
               // ),
             ),
             Divider(
-              color: Colors.grey[200],
+              color: Colors.black12,
               height: 15.0,
               thickness: 2.0,
               indent: 30.0,
