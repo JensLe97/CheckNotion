@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:little_tricks/helpers/db_helper.dart';
 import 'package:little_tricks/models/item_model.dart';
@@ -173,7 +176,9 @@ class _TodoState extends State<Todo> {
           builder: (context, AsyncSnapshot<List<Item>> snapshot) {
             if (!snapshot.hasData) {
               return Center(
-                child: CircularProgressIndicator(),
+                child: Platform.isIOS
+                    ? CupertinoActivityIndicator()
+                    : CircularProgressIndicator(),
               );
             }
             return ListView.builder(
