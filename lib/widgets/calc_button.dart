@@ -47,7 +47,7 @@ class _CalcButtonState extends State<CalcButton> {
               shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                   RoundedRectangleBorder(
                 side: widget.isPressed.elementAt(widget.index)
-                    ? BorderSide(width: 3.0, color: Colors.orange)
+                    ? BorderSide(width: 3.0, color: widget.backgroundColor)
                     : BorderSide.none,
                 borderRadius: BorderRadius.circular(50.0),
               ))),

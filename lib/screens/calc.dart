@@ -18,6 +18,7 @@ class _CalcState extends State<Calc> {
 
   @override
   Widget build(BuildContext context) {
+    var _operatorColor = Theme.of(context).accentColor;
     return Scaffold(
       appBar: AppBar(
         title: IndexedStack(children: [
@@ -101,7 +102,7 @@ class _CalcState extends State<Calc> {
                     _setFirstOperand(0);
                   });
                 },
-                backgroundColor: Colors.orange,
+                backgroundColor: _operatorColor,
                 isPressed: _hasFirstOperandList,
                 index: 0,
               ),
@@ -149,7 +150,7 @@ class _CalcState extends State<Calc> {
                     _setFirstOperand(1);
                   });
                 },
-                backgroundColor: Colors.orange,
+                backgroundColor: _operatorColor,
                 isPressed: _hasFirstOperandList,
                 index: 1,
               ),
@@ -197,7 +198,7 @@ class _CalcState extends State<Calc> {
                     _setFirstOperand(2);
                   });
                 },
-                backgroundColor: Colors.orange,
+                backgroundColor: _operatorColor,
                 isPressed: _hasFirstOperandList,
                 index: 2,
               ),
@@ -245,7 +246,7 @@ class _CalcState extends State<Calc> {
                     _setFirstOperand(3);
                   });
                 },
-                backgroundColor: Colors.orange,
+                backgroundColor: _operatorColor,
                 isPressed: _hasFirstOperandList,
                 index: 3,
               ),
@@ -319,7 +320,7 @@ class _CalcState extends State<Calc> {
                     _resetFirstOperand();
                   });
                 },
-                backgroundColor: Colors.orange,
+                backgroundColor: _operatorColor,
               ),
             ],
           ),

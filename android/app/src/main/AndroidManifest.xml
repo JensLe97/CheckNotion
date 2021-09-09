@@ -1,7 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.jenslemke.little_tricks.little_tricks">
+    <uses-permission android:name="android.permission.INTERNET"/>
    <application
-        android:label="little_tricks"
+        android:label="Little Tricks"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

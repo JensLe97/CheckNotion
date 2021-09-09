@@ -214,100 +214,69 @@ class _TimerState extends State<Timer> {
 
   // One single time item for the list
   Widget _time(Time time) {
-    return Container(
-      child: Column(
-        children: [
-          Dismissible(
-            key: UniqueKey(),
-            onDismissed: (direction) {
-              DbHelper.instance.deleteItem(time, time.id!);
-            },
-            direction: DismissDirection.endToStart,
-            // Container behind the dismissible -> delete banner
-            background: Container(
-              padding: EdgeInsets.only(right: 20.0),
-              alignment: Alignment.centerRight,
-              color: Colors.red,
-              child: Text(
-                'Löschen',
-                textAlign: TextAlign.right,
-                style: TextStyle(color: Colors.white),
-              ),
-            ),
-            // Actual list item
-            child: ListTile(
-              contentPadding:
-                  EdgeInsets.symmetric(horizontal: 40, vertical: 10),
-              title: Text(
-                time.title,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                softWrap: false,
+    return ListTile(
+      contentPadding: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+      title: Text(
+        time.title,
+        maxLines: 2,
+        overflow: TextOverflow.ellipsis,
+        softWrap: false,
+        style: TextStyle(
+          fontSize: 18,
+        ),
+      ),
+      trailing: Container(
+        padding: EdgeInsets.all(8.0),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5.0),
+            color: Color(0xAAb1b4ba),
+            shape: BoxShape.rectangle),
+        child: CountdownTimer(
+          endTime: DateTime.parse(time.time).millisecondsSinceEpoch,
+          widgetBuilder: (_, CurrentRemainingTime? time) {
+            // Timer is over
+            if (time == null) {
+              return Text('Zeit erreicht',
+                  style: TextStyle(
+                    foreground: Paint()
+                      ..shader = ui.Gradient.linear(
+                        const Offset(0, 0),
+                        Offset(MediaQuery.of(context).size.width, 0),
+                        <Color>[
+                          Colors.red,
+                          Colors.orange,
+                          Colors.yellow,
+                          Colors.green,
+                          Colors.blue,
+                          Colors.purple
+                        ],
+                        <double>[
+                          0.0,
+                          0.2,
+                          0.4,
+                          0.6,
+                          0.8,
+                          1.0,
+                        ],
+                      ),
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ));
+            }
+            // Timer is still running
+            return Text(_timeFormat(time),
                 style: TextStyle(
                   fontSize: 18,
-                ),
-              ),
-              trailing: Container(
-                padding: EdgeInsets.all(8.0),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5.0),
-                    color: Color(0xAAb1b4ba),
-                    shape: BoxShape.rectangle),
-                child: CountdownTimer(
-                  endTime: DateTime.parse(time.time).millisecondsSinceEpoch,
-                  widgetBuilder: (_, CurrentRemainingTime? time) {
-                    // Timer is over
-                    if (time == null) {
-                      return Text('Zeit erreicht',
-                          style: TextStyle(
-                            foreground: Paint()
-                              ..shader = ui.Gradient.linear(
-                                const Offset(0, 0),
-                                Offset(MediaQuery.of(context).size.width, 0),
-                                <Color>[
-                                  Colors.red,
-                                  Colors.orange,
-                                  Colors.yellow,
-                                  Colors.green,
-                                  Colors.blue,
-                                  Colors.purple
-                                ],
-                                <double>[
-                                  0.0,
-                                  0.2,
-                                  0.4,
-                                  0.6,
-                                  0.8,
-                                  1.0,
-                                ],
-                              ),
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ));
-                    }
-                    // Timer is still running
-                    return Text(_timeFormat(time),
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ));
-                  },
-                ),
-              ),
-              onTap: () => {
-                // Update the current time that was clicked
-                _showAddTime(context, time),
-              },
-            ),
-          ),
-          Divider(
-            height: 0, // Default = 16
-            indent: 40,
-            color: Colors.black,
-          )
-        ],
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ));
+          },
+        ),
       ),
+      onTap: () => {
+        // Update the current time that was clicked
+        _showAddTime(context, time),
+      },
     );
   }
 
@@ -345,7 +314,40 @@ class _TimerState extends State<Timer> {
               // a _time for each item
               itemCount: snapshot.data!.length,
               itemBuilder: (BuildContext context, int index) {
-                return _time(snapshot.data!.cast<Time>()[index]);
+                return Container(
+                  child: Column(
+                    children: [
+                      Dismissible(
+                        key: UniqueKey(),
+                        onDismissed: (direction) {
+                          DbHelper.instance.deleteItem(
+                              snapshot.data!.cast<Time>()[index],
+                              snapshot.data!.cast<Time>()[index].id!);
+                          snapshot.data!.removeAt(index);
+                        },
+                        direction: DismissDirection.endToStart,
+                        // Container behind the dismissible -> delete banner
+                        background: Container(
+                          padding: EdgeInsets.only(right: 20.0),
+                          alignment: Alignment.centerRight,
+                          color: Colors.red,
+                          child: Text(
+                            'Löschen',
+                            textAlign: TextAlign.right,
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                        // The actual ListTile
+                        child: _time(snapshot.data!.cast<Time>()[index]),
+                      ),
+                      Divider(
+                        height: 0, // Default = 16
+                        indent: 40,
+                        color: Colors.black,
+                      )
+                    ],
+                  ),
+                );
               },
             );
           },
