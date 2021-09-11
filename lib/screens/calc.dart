@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:little_tricks/widgets/calc_button.dart';
+import 'package:checknotion/widgets/calc_button.dart';
 import "package:charcode/charcode.dart";
 
 class Calc extends StatefulWidget {

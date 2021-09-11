@@ -1,3 +1,3 @@
-# little_tricks
+# checknotion
 
 A multifunctional app for Android and iOS.

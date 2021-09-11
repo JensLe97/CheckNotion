@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:little_tricks/models/question_model.dart';
+import 'package:checknotion/models/question_model.dart';
 
 enum QuizStatus {
   initial,

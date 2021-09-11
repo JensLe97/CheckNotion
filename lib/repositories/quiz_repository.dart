@@ -3,10 +3,10 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:little_tricks/models/failure_model.dart';
-import 'package:little_tricks/models/question_model.dart';
-import 'package:little_tricks/enums/Difficulty.dart';
-import 'package:little_tricks/repositories/base_quiz_repository.dart';
+import 'package:checknotion/models/failure_model.dart';
+import 'package:checknotion/models/question_model.dart';
+import 'package:checknotion/enums/Difficulty.dart';
+import 'package:checknotion/repositories/base_quiz_repository.dart';
 
 // Dio: Http client for Dart
 final dioProvider = Provider<Dio>((ref) => Dio());

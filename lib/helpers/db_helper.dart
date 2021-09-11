@@ -1,9 +1,9 @@
 import 'dart:io';
 
-import 'package:little_tricks/models/item_model.dart';
-import 'package:little_tricks/models/note_model.dart';
-import 'package:little_tricks/models/task_model.dart';
-import 'package:little_tricks/models/time_model.dart';
+import 'package:checknotion/models/item_model.dart';
+import 'package:checknotion/models/note_model.dart';
+import 'package:checknotion/models/task_model.dart';
+import 'package:checknotion/models/time_model.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 

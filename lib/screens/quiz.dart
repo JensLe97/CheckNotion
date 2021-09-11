@@ -6,12 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:html_character_entities/html_character_entities.dart';
-import 'package:little_tricks/controllers/quiz_controller.dart';
-import 'package:little_tricks/controllers/quiz_state.dart';
-import 'package:little_tricks/enums/Difficulty.dart';
-import 'package:little_tricks/models/failure_model.dart';
-import 'package:little_tricks/models/question_model.dart';
-import 'package:little_tricks/repositories/quiz_repository.dart';
+import 'package:checknotion/controllers/quiz_controller.dart';
+import 'package:checknotion/controllers/quiz_state.dart';
+import 'package:checknotion/enums/Difficulty.dart';
+import 'package:checknotion/models/failure_model.dart';
+import 'package:checknotion/models/question_model.dart';
+import 'package:checknotion/repositories/quiz_repository.dart';
 //import 'package:translator/translator.dart';
 
 // Provides a requested List of Question with certain parameters

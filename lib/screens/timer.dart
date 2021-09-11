@@ -6,9 +6,9 @@ import 'package:flutter_countdown_timer/current_remaining_time.dart';
 import 'package:intl/intl.dart';
 import 'dart:ui' as ui;
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
-import 'package:little_tricks/helpers/db_helper.dart';
-import 'package:little_tricks/models/item_model.dart';
-import 'package:little_tricks/models/time_model.dart';
+import 'package:checknotion/helpers/db_helper.dart';
+import 'package:checknotion/models/item_model.dart';
+import 'package:checknotion/models/time_model.dart';
 
 class Timer extends StatefulWidget {
   const Timer({Key? key}) : super(key: key);

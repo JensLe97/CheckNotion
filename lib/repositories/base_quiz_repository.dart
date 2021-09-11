@@ -1,5 +1,5 @@
-import 'package:little_tricks/enums/Difficulty.dart';
-import 'package:little_tricks/models/question_model.dart';
+import 'package:checknotion/enums/Difficulty.dart';
+import 'package:checknotion/models/question_model.dart';
 
 // Baseclass for getting a certain API request
 abstract class BaseQuizRepository {

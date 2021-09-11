@@ -1,4 +1,4 @@
-import 'package:little_tricks/models/item_model.dart';
+import 'package:checknotion/models/item_model.dart';
 
 class Note extends Item {
   String content;

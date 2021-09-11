@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:little_tricks/screens/calc.dart';
-import 'package:little_tricks/screens/notes.dart';
-import 'package:little_tricks/screens/quiz.dart';
-import 'package:little_tricks/screens/timer.dart';
-import 'package:little_tricks/screens/todo.dart';
+import 'package:checknotion/screens/calc.dart';
+import 'package:checknotion/screens/notes.dart';
+import 'package:checknotion/screens/quiz.dart';
+import 'package:checknotion/screens/timer.dart';
+import 'package:checknotion/screens/todo.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,10 +14,10 @@ void main() {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  runApp(LittleTricks());
+  runApp(CheckNotion());
 }
 
-class LittleTricks extends StatelessWidget {
+class CheckNotion extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ProviderScope(
@@ -39,16 +39,14 @@ class LittleTricks extends StatelessWidget {
           bottomSheetTheme:
               const BottomSheetThemeData(backgroundColor: Colors.transparent),
         ),
-        home: NavBar(title: 'Little Tricks'),
+        home: NavBar(),
       ),
     );
   }
 }
 
 class NavBar extends StatefulWidget {
-  NavBar({Key? key, required this.title}) : super(key: key);
-
-  final String title;
+  NavBar({Key? key}) : super(key: key);
 
   @override
   _NavBarState createState() => _NavBarState();

@@ -1,6 +1,6 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:little_tricks/controllers/quiz_state.dart';
-import 'package:little_tricks/models/question_model.dart';
+import 'package:checknotion/controllers/quiz_state.dart';
+import 'package:checknotion/models/question_model.dart';
 
 // Controlls the state of questions answered
 // The quiz controller extends a StateNotifier of QuizState

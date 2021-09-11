@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:little_tricks/helpers/db_helper.dart';
-import 'package:little_tricks/models/item_model.dart';
-import 'package:little_tricks/models/note_model.dart';
+import 'package:checknotion/helpers/db_helper.dart';
+import 'package:checknotion/models/item_model.dart';
+import 'package:checknotion/models/note_model.dart';
 
 class Notes extends StatefulWidget {
   const Notes({Key? key}) : super(key: key);

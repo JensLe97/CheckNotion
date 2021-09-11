@@ -1,8 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.jenslemke.little_tricks.little_tricks">
+    package="com.jenslemke.checknotion">
     <uses-permission android:name="android.permission.INTERNET"/>
    <application
-        android:label="Little Tricks"
+        android:label="CheckNotion"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

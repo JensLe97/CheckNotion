@@ -1,4 +1,4 @@
-package com.jenslemke.little_tricks.little_tricks
+package com.jenslemke.checknotion
 
 import io.flutter.embedding.android.FlutterActivity
 
