@@ -48,19 +48,20 @@ dependencies:
   html_character_entities: ^1.0.0+1
   # translator: ^0.1.7
 
-# flutter_icons:
-#   android: true
-#   ios: true
-#   # color: "#2196f3"
-#   # 512 x 512 @1x
-#   image_path: "assets/icon/icon.png"
+flutter_icons:
+  android: true
+  ios: true
+  remove_alpha_ios: true
+  image_path: "assets/icon/icon.png"
+  adaptive_icon_background: "assets/icon/Background.png"
+  adaptive_icon_foreground: "assets/icon/Foreground.png"
+  adaptive_icon_padding: true
 
-# flutter_native_splash:
-#   color: "#ffffff"
-#   # 1024 x 1024 @1x
-#   image: assets/splash.png
-#   android: true
-#   ios: true
+flutter_native_splash:
+  color: "#2196f3"
+  image: assets/splash.png
+  android: true
+  ios: true
 
 dev_dependencies:
   flutter_test:
