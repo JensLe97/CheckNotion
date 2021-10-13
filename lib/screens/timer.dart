@@ -324,6 +324,7 @@ class _TimerState extends State<Timer> {
                               snapshot.data!.cast<Time>()[index],
                               snapshot.data!.cast<Time>()[index].id!);
                           snapshot.data!.removeAt(index);
+                          _updateTimeList();
                         },
                         direction: DismissDirection.endToStart,
                         // Container behind the dismissible -> delete banner

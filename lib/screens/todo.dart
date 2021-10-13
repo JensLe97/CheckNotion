@@ -88,67 +88,35 @@ class _TodoState extends State<Todo> {
 
   // One single task item for the list
   Widget _task(Task task) {
-    return Container(
-      child: Column(
-        children: [
-          Dismissible(
-            key: UniqueKey(),
-            onDismissed: (direction) {
-              DbHelper.instance.deleteItem(task, task.id!);
-            },
-            direction: DismissDirection.endToStart,
-            // Container behind the dismissible -> delete banner
-            background: Container(
-              padding: EdgeInsets.only(right: 20.0),
-              alignment: Alignment.centerRight,
-              color: Colors.red,
-              child: Text(
-                'Löschen',
-                textAlign: TextAlign.right,
-                style: TextStyle(color: Colors.white),
-              ),
-            ),
-            // Actual list item
-            child: ListTile(
-              contentPadding:
-                  EdgeInsets.symmetric(horizontal: 40, vertical: 10),
-              title: Text(
-                task.title,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                softWrap: false,
-                style: TextStyle(
-                  fontSize: 18,
-                  decoration: task.done == 0
-                      ? TextDecoration.none
-                      : TextDecoration.lineThrough,
-                ),
-              ),
-              trailing: IconButton(
-                iconSize: 28,
-                onPressed: () {
-                  task.done = task.done == 1 ? 0 : 1;
-                  DbHelper.instance.updateItem(task);
-                  _updateTaskList();
-                },
-                icon: task.done == 1
-                    ? Icon(Icons.check_circle)
-                    : Icon(Icons.circle_outlined),
-                color: task.done == 1 ? Colors.green : Colors.grey,
-              ),
-              onTap: () => {
-                // Update the current task that was clicked
-                _showAddTodo(context, task),
-              },
-            ),
-          ),
-          Divider(
-            height: 0, // Default = 16
-            indent: 40,
-            color: Colors.black,
-          )
-        ],
+    return ListTile(
+      contentPadding: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+      title: Text(
+        task.title,
+        maxLines: 2,
+        overflow: TextOverflow.ellipsis,
+        softWrap: false,
+        style: TextStyle(
+          fontSize: 18,
+          decoration:
+              task.done == 0 ? TextDecoration.none : TextDecoration.lineThrough,
+        ),
       ),
+      trailing: IconButton(
+        iconSize: 28,
+        onPressed: () {
+          task.done = task.done == 1 ? 0 : 1;
+          DbHelper.instance.updateItem(task);
+          _updateTaskList();
+        },
+        icon: task.done == 1
+            ? Icon(Icons.check_circle)
+            : Icon(Icons.circle_outlined),
+        color: task.done == 1 ? Colors.green : Colors.grey,
+      ),
+      onTap: () => {
+        // Update the current task that was clicked
+        _showAddTodo(context, task),
+      },
     );
   }
 
@@ -186,7 +154,41 @@ class _TodoState extends State<Todo> {
               // a _task for each item
               itemCount: snapshot.data!.length,
               itemBuilder: (BuildContext context, int index) {
-                return _task(snapshot.data!.cast<Task>()[index]);
+                return Container(
+                  child: Column(
+                    children: [
+                      Dismissible(
+                        key: UniqueKey(),
+                        onDismissed: (direction) {
+                          DbHelper.instance.deleteItem(
+                              snapshot.data!.cast<Task>()[index],
+                              snapshot.data!.cast<Task>()[index].id!);
+                          snapshot.data!.removeAt(index);
+                          _updateTaskList();
+                        },
+                        direction: DismissDirection.endToStart,
+                        // Container behind the dismissible -> delete banner
+                        background: Container(
+                          padding: EdgeInsets.only(right: 20.0),
+                          alignment: Alignment.centerRight,
+                          color: Colors.red,
+                          child: Text(
+                            'Löschen',
+                            textAlign: TextAlign.right,
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                        // The actual ListTile
+                        child: _task(snapshot.data!.cast<Task>()[index]),
+                      ),
+                      Divider(
+                        height: 0, // Default = 16
+                        indent: 40,
+                        color: Colors.black,
+                      )
+                    ],
+                  ),
+                );
               },
             );
           },
