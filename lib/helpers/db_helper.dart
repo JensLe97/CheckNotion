@@ -1,10 +1,8 @@
-import 'dart:io';
-
 import 'package:checknotion/models/item_model.dart';
 import 'package:checknotion/models/note_model.dart';
 import 'package:checknotion/models/task_model.dart';
 import 'package:checknotion/models/time_model.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart' as p;
 import 'package:sqflite/sqflite.dart';
 
 class DbHelper {
@@ -36,8 +34,8 @@ class DbHelper {
   }
 
   Future<Database> _initDb() async {
-    Directory dir = await getApplicationDocumentsDirectory();
-    String path = dir.path + 'tricks_list.db';
+    String databasesPath = await getDatabasesPath();
+    String path = p.join(databasesPath, 'checknotion_list.db');
     final trickListDb =
         await openDatabase(path, version: 2, onCreate: _createDb);
     return trickListDb;
