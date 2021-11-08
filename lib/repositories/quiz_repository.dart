@@ -56,7 +56,10 @@ class QuizRepository extends BaseQuizRepository {
       return [];
     } on DioError catch (e) {
       print(e);
-      throw Failure(message: e.response?.statusMessage);
+      throw Failure(
+          message: e.response != null
+              ? e.response!.statusMessage
+              : 'Etwas ist schiefgelaufen...');
     } on SocketException catch (e) {
       print(e);
       throw const Failure(message: 'Bitte Internetverbindung überprüfen.');

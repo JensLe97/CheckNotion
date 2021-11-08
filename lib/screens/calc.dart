@@ -19,6 +19,9 @@ class _CalcState extends State<Calc> {
   @override
   Widget build(BuildContext context) {
     var _operatorColor = Theme.of(context).accentColor;
+    var _width = MediaQuery.of(context).size.width;
+    var _space = 15;
+    var _margin = (_width - (_width / 4 - _width / _space) * 4) / 5;
     return Scaffold(
       appBar: AppBar(
         title: IndexedStack(children: [
@@ -32,15 +35,19 @@ class _CalcState extends State<Calc> {
         children: [
           // Input / Output
           Container(
-            padding: EdgeInsets.fromLTRB(15.0, 40.0, 20.0, 0.0),
-            child: Text(
-              (_existsFirstOperand() ? _firstOperand : _result)
-                  .replaceAll('.', ','),
-              style: TextStyle(fontSize: 60),
+            height: MediaQuery.of(context).size.height * 0.14,
+            width: MediaQuery.of(context).size.width * 0.88,
+            padding: EdgeInsets.only(top: 30.0),
+            child: FittedBox(
+              alignment: Alignment.centerRight,
+              child: Text(
+                (_existsFirstOperand() ? _firstOperand : _result)
+                    .replaceAll('.', ','),
+                textAlign: TextAlign.right,
+              ),
             ),
-            alignment: Alignment.centerRight,
           ),
-          // C +/- % /
+          // AC +/- % /
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -257,7 +264,7 @@ class _CalcState extends State<Calc> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               SizedBox(
-                width: 170,
+                width: (_width / 4 - _width / _space) * 2 + _margin,
                 child: CalcButton(
                   text: '0',
                   callback: () {

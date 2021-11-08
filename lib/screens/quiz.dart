@@ -256,7 +256,7 @@ class QuizError extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(message),
+          Text(message ?? 'Etwas ist schiefgelaufen...'),
           const SizedBox(
             height: 20.0,
           ),

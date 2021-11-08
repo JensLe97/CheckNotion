@@ -269,6 +269,7 @@ class _TimerState extends State<Timer> {
                   fontSize: 18,
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
+                  fontFeatures: [ui.FontFeature.tabularFigures()],
                 ));
           },
         ),

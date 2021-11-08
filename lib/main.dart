@@ -24,6 +24,7 @@ class CheckNotion extends StatelessWidget {
       child: MaterialApp(
         localizationsDelegates: [
           GlobalMaterialLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
         ],
         supportedLocales: [
           const Locale('de'),
@@ -31,7 +32,7 @@ class CheckNotion extends StatelessWidget {
         ],
         // Language of the App is German
         locale: Locale('de'),
-        title: 'Flutter Demo',
+        title: 'CheckNotion',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.blue,

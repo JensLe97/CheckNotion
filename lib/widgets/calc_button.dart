@@ -29,14 +29,16 @@ class CalcButton extends StatefulWidget {
 class _CalcButtonState extends State<CalcButton> {
   @override
   Widget build(BuildContext context) {
+    var _width = MediaQuery.of(context).size.width;
+    var _space = 15;
     return SizedBox(
-      width: 78,
-      height: 78,
+      width: _width / 4 - _width / _space,
+      height: _width / 4 - _width / _space,
       child: TextButton(
           style: ButtonStyle(
               padding: widget.isZero
                   ? MaterialStateProperty.all<EdgeInsets>(
-                      EdgeInsets.only(left: 30.0))
+                      EdgeInsets.only(left: _width * 0.07))
                   : null,
               alignment:
                   widget.isZero ? Alignment.centerLeft : Alignment.center,
@@ -49,7 +51,7 @@ class _CalcButtonState extends State<CalcButton> {
                 side: widget.isPressed.elementAt(widget.index)
                     ? BorderSide(width: 3.0, color: widget.backgroundColor)
                     : BorderSide.none,
-                borderRadius: BorderRadius.circular(50.0),
+                borderRadius: BorderRadius.circular(_width * 0.1),
               ))),
           onPressed: widget.callback,
           child: Text(
@@ -58,7 +60,7 @@ class _CalcButtonState extends State<CalcButton> {
                 color: widget.isPressed.elementAt(widget.index)
                     ? widget.backgroundColor
                     : widget.textColor,
-                fontSize: 35),
+                fontSize: _width * 0.09),
           )),
     );
   }
