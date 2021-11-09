@@ -18,7 +18,7 @@ class _CalcState extends State<Calc> {
 
   @override
   Widget build(BuildContext context) {
-    var _operatorColor = Theme.of(context).accentColor;
+    var _operatorColor = Theme.of(context).colorScheme.secondary;
     var _width = MediaQuery.of(context).size.width;
     var _space = 15;
     var _margin = (_width - (_width / 4 - _width / _space) * 4) / 5;
