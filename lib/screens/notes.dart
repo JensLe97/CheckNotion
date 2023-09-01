@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:checknotion/widgets/bottom_sheet.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:checknotion/helpers/db_helper.dart';
@@ -190,7 +191,27 @@ class _NotesState extends State<Notes> {
                 // Add new note to the list
                 _showAddNote(context, null);
               },
-              icon: Icon(Icons.add))
+              icon: Icon(Icons.add)),
+          IconButton(
+              onPressed: () {
+                Platform.isIOS
+                    ? showCupertinoModalPopup(
+                        context: context,
+                        builder: (BuildContext context) => MenuItems())
+                    : showModalBottomSheet(
+                        backgroundColor: Colors.white, // bottomsheet color
+                        context: context,
+                        isScrollControlled: true,
+                        useRootNavigator: true,
+                        enableDrag: true,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(20),
+                          ),
+                        ),
+                        builder: (BuildContext context) => MenuItems());
+              },
+              icon: Icon(Icons.menu))
         ],
       ),
       body: Container(
