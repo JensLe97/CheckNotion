@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:checknotion/widgets/calc_button.dart';
 import "package:charcode/charcode.dart";
+import 'package:checknotion/widgets/calc_button.dart';
+import 'package:flutter/material.dart';
 
 class Calc extends StatefulWidget {
-  const Calc({Key? key}) : super(key: key);
+  const Calc({super.key});
 
   @override
   _CalcState createState() => _CalcState();
@@ -18,17 +18,13 @@ class _CalcState extends State<Calc> {
 
   @override
   Widget build(BuildContext context) {
-    var _operatorColor = Theme.of(context).colorScheme.secondary;
-    var _width = MediaQuery.of(context).size.width;
-    var _space = 15;
-    var _margin = (_width - (_width / 4 - _width / _space) * 4) / 5;
+    var operatorColor = Theme.of(context).colorScheme.secondary;
+    var width = MediaQuery.of(context).size.width;
+    var space = 15;
+    var margin = (width - (width / 4 - width / space) * 4) / 5;
     return Scaffold(
       appBar: AppBar(
-        title: IndexedStack(children: [
-          Center(
-            child: Text('Taschenrechner'),
-          ),
-        ]),
+        title: IndexedStack(children: [Center(child: Text('Taschenrechner'))]),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -41,8 +37,10 @@ class _CalcState extends State<Calc> {
             child: FittedBox(
               alignment: Alignment.centerRight,
               child: Text(
-                (_existsFirstOperand() ? _firstOperand : _result)
-                    .replaceAll('.', ','),
+                (_existsFirstOperand() ? _firstOperand : _result).replaceAll(
+                  '.',
+                  ',',
+                ),
                 textAlign: TextAlign.right,
               ),
             ),
@@ -109,7 +107,7 @@ class _CalcState extends State<Calc> {
                     _setFirstOperand(0);
                   });
                 },
-                backgroundColor: _operatorColor,
+                backgroundColor: operatorColor,
                 isPressed: _hasFirstOperandList,
                 index: 0,
               ),
@@ -157,7 +155,7 @@ class _CalcState extends State<Calc> {
                     _setFirstOperand(1);
                   });
                 },
-                backgroundColor: _operatorColor,
+                backgroundColor: operatorColor,
                 isPressed: _hasFirstOperandList,
                 index: 1,
               ),
@@ -205,7 +203,7 @@ class _CalcState extends State<Calc> {
                     _setFirstOperand(2);
                   });
                 },
-                backgroundColor: _operatorColor,
+                backgroundColor: operatorColor,
                 isPressed: _hasFirstOperandList,
                 index: 2,
               ),
@@ -253,7 +251,7 @@ class _CalcState extends State<Calc> {
                     _setFirstOperand(3);
                   });
                 },
-                backgroundColor: _operatorColor,
+                backgroundColor: operatorColor,
                 isPressed: _hasFirstOperandList,
                 index: 3,
               ),
@@ -264,7 +262,7 @@ class _CalcState extends State<Calc> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               SizedBox(
-                width: (_width / 4 - _width / _space) * 2 + _margin,
+                width: (width / 4 - width / space) * 2 + margin,
                 child: CalcButton(
                   text: '0',
                   callback: () {
@@ -295,7 +293,7 @@ class _CalcState extends State<Calc> {
                     if (_checkErrors()) return;
                     var op1 = double.parse(_firstOperand);
                     var op2 = double.parse(_result);
-                    var result;
+                    Object result;
                     switch (_operator) {
                       case '/':
                         if (op2 != 0)
@@ -315,10 +313,15 @@ class _CalcState extends State<Calc> {
                       default:
                         result = op2;
                     }
-                    if (_checkErrors(result: result) || _outOfBounds(result)) {
+                    if (_checkErrors(result: result) ||
+                        _outOfBounds(result is double ? result : double.nan)) {
                       _result = 'Fehler!';
                     } else {
-                      _result = _truncToNum(result);
+                      if (result is double) {
+                        _result = _truncToNum(result);
+                      } else {
+                        _result = result.toString();
+                      }
                     }
 
                     _operator = '';
@@ -327,7 +330,7 @@ class _CalcState extends State<Calc> {
                     _resetFirstOperand();
                   });
                 },
-                backgroundColor: _operatorColor,
+                backgroundColor: operatorColor,
               ),
             ],
           ),
